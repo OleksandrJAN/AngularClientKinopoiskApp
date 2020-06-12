@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-body">
+
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Страна</th>
+                    <th scope="col">Год</th>
+                    <th scope="col">Жанры</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let film of films">
+                    <td>{{film.id}}</td>
+                    <td><a class="card-link" routerLink="/films/{{film.id}}">{{film.filmName}}</a></td>
+                    <td>{{film.country}}</td>
+                    <td>{{film.year}}</td>
+                    <td>
+                        <span *ngFor="let genre of film.filmGenres">
+                            <a class="card-link" routerLink="/genre/{{genre.id}}">{{genre.name}} </a></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
