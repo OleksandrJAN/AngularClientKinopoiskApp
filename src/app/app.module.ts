@@ -4,18 +4,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+
 import { FilmService } from './service/film.service';
+import { HumanService } from './service/human.service';
 
 import { AppComponent } from './app.component';
 import { FilmListComponent } from './film-list/film-list.component';
 import { FilmPageComponent } from './film-page/film-page.component';
+import { HumanListComponent } from './human-list/human-list.component';
+import { HumanPageComponent } from './human-page/human-page.component';
 
+registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
     AppComponent,
     FilmListComponent,
-    FilmPageComponent
+    FilmPageComponent,
+    HumanListComponent,
+    HumanPageComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +33,8 @@ import { FilmPageComponent } from './film-page/film-page.component';
     FormsModule
   ],
   providers: [
-    FilmService
+    FilmService,
+    HumanService
   ],
   bootstrap: [AppComponent]
 })
