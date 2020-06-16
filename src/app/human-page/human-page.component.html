@@ -1,0 +1,122 @@
+<div class="form-group row">
+
+    <!-- Poster File -->
+    <div class="col-md-3">
+        <img class="img-fluid img-thumbnail" src="{{human.image}}">
+    </div>
+
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="humanName" class="col-form-label">Имя:</label>
+                    </div>
+                    <div class="col">
+                        <div id="humanName" class="form-control" readonly>
+                            <span>{{human.firstName}} {{human.lastName}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="humanBirthDate" class="col-form-label">Дата рождения:</label>
+                    </div>
+                    <div class="col">
+                        <div id="humanBirthDate" class="form-control" readonly>
+                            <span>{{human.birthDate | date:'dd MMMM, yyyy':'UTC':'ru'}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="humanCareers" class="col-form-label">Карьера:</label>
+                    </div>
+                    <div class="col">
+                        <div id="humanCareers" class="form-control" readonly>
+                            <span *ngFor="let career of human.careersInfo">
+                                <a class="card-link" routerLink="/careers/{{career.id}}">{{career.name}}</a>&nbsp;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label for="humanTotalFilms" class="col-form-label">Количество фильмов:</label>
+                    </div>
+                    <div class="col">
+                        <div id="humanTotalFilms" class="form-control" readonly>
+                            <span>{{human.totalFilms}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <!-- Sorting -->
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label for="sortingGenre" class="col-form-label">Сортировать по:</label>
+            </div>
+            <div class="col">
+                <select class="form-control" [(ngModel)]="selectedSortingValue" (change)=getHumanFilms()>
+                    <option *ngFor="let value of sortingValues" [ngValue]="value">{{value}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-control" id="sortingGenre" [(ngModel)]="selectedFilteringGenre" (change)=getHumanFilms()>
+                    <option *ngFor="let genre of humanGenres" [ngValue]="genre">{{genre}}</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Films Info -->
+        <div class="accordion" id="accordionId">
+            <ng-container *ngFor="let humanRolesPair of humanRoles">
+
+                <div class="card">
+                    <div class="card-header" id="heading{{humanRolesPair[0]}}">
+                        <a class="card-link" data-toggle="collapse" attr.href="#collapse{{humanRolesPair[0]}}"
+                            aria-expanded="true" attr.aria-controls="collapse{{humanRolesPair[0]}}">
+                            {{humanRolesPair[0]}}
+                        </a> ({{humanRolesPair[1].length}})
+                    </div>
+                    <div id="collapse{{humanRolesPair[0]}}" class="collapse" data-parent="#accordionId"
+                        attr.aria-labelledby="heading{{humanRolesPair[0]}}">
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead class="thead">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Название</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let filmInfo of humanRolesPair[1]; index as i">
+                                        <td>{{i + 1}}</td>
+                                        <td>
+                                            <a class="card-link" routerLink="/films/{{filmInfo.filmId}}">
+                                                {{filmInfo.filmName}}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+</div>
