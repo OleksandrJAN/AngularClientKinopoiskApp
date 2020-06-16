@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-body">
+
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Дата рождения</th>
+                    <th scope="col">Карьера</th>
+                    <th scope="col">Количество фильмов</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let human of humans">
+                    <td>{{human.id}}</td>
+                    <td><a class="card-link" routerLink="/humans/{{human.id}}">{{human.firstName}} {{human.lastName}}</a></td>
+                    <td><span>{{human.birthDate | date:'dd MMM, yyyy':'UTC':'ru'}}</span></td>
+                    <td>
+                        <span *ngFor="let career of human.careersInfo">
+                            <a class="card-link" routerLink="/careers/{{career.id}}">{{career.name}} </a></span>
+                    </td>
+                    <td>{{human.totalFilms}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
