@@ -9,6 +9,8 @@ import localeRu from '@angular/common/locales/ru';
 
 import { FilmService } from './service/film.service';
 import { HumanService } from './service/human.service';
+import { GenreService } from './service/genre.service';
+import { CareerService } from './service/career.service';
 
 import { AppComponent } from './app.component';
 import { FilmListComponent } from './film-list/film-list.component';
@@ -34,7 +36,9 @@ registerLocaleData(localeRu, 'ru');
   ],
   providers: [
     FilmService,
-    HumanService
+    HumanService,
+    GenreService,
+    CareerService
   ],
   bootstrap: [AppComponent]
 })
