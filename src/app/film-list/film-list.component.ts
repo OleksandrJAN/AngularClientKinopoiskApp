@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { FilmService } from '../service/film.service';
 import { Film, FilmSortType } from '../domain/film';
@@ -30,23 +30,23 @@ export class FilmListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getQueryParams();
-    this.getFilms();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.getQueryParams(params);
+      this.getFilms();
+    });
     this.getFilmsCountries();
     this.getAllGenres();
   }
 
-  getQueryParams(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const country = params['country'];
-      if (country !== undefined) {
-        this.filteringCountry = country;
-      }
-      const genre = params['genre'];
-      if (genre !== undefined) {
-        this.filteringGenre = genre;
-      }
-    });
+  getQueryParams(params: Params): void {
+    const country = params['country'];
+    if (country !== undefined) {
+      this.filteringCountry = country;
+    }
+    const genre = params['genre'];
+    if (genre !== undefined) {
+      this.filteringGenre = genre;
+    }
   }
 
   getFilms(): void {

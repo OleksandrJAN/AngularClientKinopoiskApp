@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { HumanService } from '../service/human.service';
 import { Human, HumanSortType } from '../domain/human';
@@ -32,23 +32,23 @@ export class HumanListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getQueryParams();
-    this.getHumans();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.getQueryParams(params);
+      this.getHumans();
+    });
     this.getHumansCareers();
     this.getHumansGenres();
   }
 
-  getQueryParams(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const career = params['career'];
-      if (career !== undefined) {
-        this.filteringCareer = career;
-      }
-      const genre = params['genre'];
-      if (genre !== undefined) {
-        this.filteringGenre = genre;
-      }
-    });
+  getQueryParams(params: Params): void {
+    const career = params['career'];
+    if (career !== undefined) {
+      this.filteringCareer = career;
+    }
+    const genre = params['genre'];
+    if (genre !== undefined) {
+      this.filteringGenre = genre;
+    }
   }
 
   getHumans(): void {
