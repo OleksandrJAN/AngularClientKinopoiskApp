@@ -1,10 +1,3 @@
-import { DatePipe } from '@angular/common';
-
-class CareerInfo {
-    id: number;
-    name: string;
-}
-
 export class Human {
     id: number;
     firstName: string;
@@ -13,10 +6,10 @@ export class Human {
     totalFilms: number;
     image: string;
 
-    careersInfo: Array<CareerInfo> = new Array();
+    humanCareers: Array<string> = new Array();
 }
 
 export enum HumanSortType {
-    году = 'byYear',
-    названию = 'byName'
+    популярности = 'byPopular',
+    имени = 'byName'
 }

@@ -1,8 +1,3 @@
-class GenreInfo {
-    id: number;
-    name: string;
-}
-
 export class Film {
     id: number;
     filmName: string;
@@ -12,5 +7,10 @@ export class Film {
     annotation: string;
     image: string;
    
-    filmGenres: Array<GenreInfo> = new Array();
+    filmGenres: Array<string> = new Array();
+}
+
+export enum FilmSortType {
+    году = 'byYear',
+    названию = 'byName'
 }
