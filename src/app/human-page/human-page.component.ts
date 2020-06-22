@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HumanService } from '../service/human.service';
-import { Human, HumanSortType } from '../domain/human';
+import { Human } from '../domain/human';
+import { FilmSortType } from '../domain/film';
 
 
 @Component({
@@ -16,11 +17,14 @@ export class HumanPageComponent implements OnInit {
   human: Human = new Human();
   humanRoles: any;
 
-  sortingValues: string[] = Object.keys(HumanSortType);
-  selectedSortingValue: string = this.sortingValues[0];
-  humanGenres: string[] = ['Все жанры'];
-  selectedFilteringGenre: string = this.humanGenres[0];
+  filmsSortingValues: string[] = Object.keys(FilmSortType);
+  sortingValue: string = this.filmsSortingValues[0];
 
+  humanFilmsCountries: string[] = ['Все страны'];
+  filteringCountry: string = this.humanFilmsCountries[0];
+  
+  humanFilmsGenres: string[] = ['Все жанры'];
+  filteringGenre: string = this.humanFilmsGenres[0];
 
   constructor(
     private humanService: HumanService,
@@ -37,8 +41,7 @@ export class HumanPageComponent implements OnInit {
         const id: number = +params.get('id');
         this.humanId = id;
         this.getHumanInfo();
-        this.getHumanFilms();
-        this.getHumanGenres();
+        this.getHumanFilmsInfo();
       }
     );
   }
@@ -50,17 +53,31 @@ export class HumanPageComponent implements OnInit {
     );
   }
 
+  getHumanFilmsInfo(): void {
+    this.getHumanFilms();
+    this.getHumanFilmsCountries();
+    this.getHumanFilmsGenres();
+  }
+
   getHumanFilms(): void {
-    let filteringGenre: string = this.selectedFilteringGenre !== 'Все жанры' ? this.selectedFilteringGenre : null;
-    this.humanService.findHumanRoles(this.humanId, this.selectedSortingValue, filteringGenre).subscribe(
+    let sortType: FilmSortType = FilmSortType[this.sortingValue];
+    let filteringCountry: string = this.filteringCountry !== this.humanFilmsCountries[0] ? this.filteringCountry : '';
+    let filteringGenre: string = this.filteringGenre !== this.humanFilmsGenres[0] ? this.filteringGenre : '';
+    this.humanService.findHumanFilms(this.humanId, sortType, filteringCountry, filteringGenre).subscribe(
       (humanRoles: any) => this.humanRoles = Object.entries(humanRoles),
       (error: any) => console.log(error)
     );
   }
 
-  getHumanGenres(): void {
-    this.humanService.findHumanGenres(this.humanId).subscribe(
-      (humanGenres: string[]) => this.humanGenres = this.humanGenres.concat(humanGenres),
+  getHumanFilmsCountries(): void {
+    this.humanService.findHumanFilmsCountries(this.humanId).subscribe(
+      (filmsCountries: string[]) => this.humanFilmsCountries = this.humanFilmsCountries.concat(filmsCountries)
+    );
+  }
+
+  getHumanFilmsGenres(): void {
+    this.humanService.findHumanFilmsGenres(this.humanId).subscribe(
+      (humanGenres: string[]) => this.humanFilmsGenres = this.humanFilmsGenres.concat(humanGenres),
       (error: any) => console.log(error)
     )
   }

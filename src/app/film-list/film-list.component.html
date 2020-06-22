@@ -1,6 +1,29 @@
 <div class="card">
     <div class="card-body">
 
+        <!-- Sorting -->
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label for="sorting" class="col-form-label">Сортировать по:</label>
+            </div>
+            <div class="col" id="sorting">
+                <select class="form-control" [(ngModel)]="sortingValue" (change)=getFilms()>
+                    <option *ngFor="let sortValue of filmsSortingValues" [ngValue]="sortValue">{{sortValue}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-control" [(ngModel)]="filteringCountry" (change)=getFilms()>
+                    <option *ngFor="let country of filmsCountries" [ngValue]="country">{{country}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-control" [(ngModel)]="filteringGenre" (change)=getFilms()>
+                    <option *ngFor="let genre of filmsGenres" [ngValue]="genre">{{genre}}</option>
+                </select>
+            </div>
+        </div>
+
+
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -12,14 +35,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let film of films">
-                    <td>{{film.id}}</td>
+                <tr *ngFor="let film of films; index as i">
+                    <td>{{i + 1}}</td>
                     <td><a class="card-link" routerLink="/films/{{film.id}}">{{film.filmName}}</a></td>
-                    <td>{{film.country}}</td>
+                    <td>
+                        <a class="card-link" [routerLink]="['/films']"
+                            [queryParams]="{country:film.country, genre:filteringGenre}">{{film.country}} </a>
+                    </td>
                     <td>{{film.year}}</td>
                     <td>
                         <span *ngFor="let genre of film.filmGenres">
-                            <a class="card-link" routerLink="/genre/{{genre.id}}">{{genre.name}} </a></span>
+                            <a class="card-link" [routerLink]="['/films']"
+                                [queryParams]="{country:filteringCountry, genre:genre}">{{genre}} </a>
+                        </span>
                     </td>
                 </tr>
             </tbody>

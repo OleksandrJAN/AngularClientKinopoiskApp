@@ -60,7 +60,8 @@
                     <div class="col">
                         <div id="filmGenres" class="form-control" readonly>
                             <span *ngFor="let genre of film.filmGenres">
-                                <a class="card-link" routerLink="/genres/{{genre.id}}">{{genre.name}}</a>&nbsp;
+                                <a class="card-link" [routerLink]="['/films']"
+                                    [queryParams]="{genre:genre}">{{genre}}</a>&nbsp;
                             </span>
                         </div>
                     </div>

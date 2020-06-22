@@ -1,6 +1,28 @@
 <div class="card">
     <div class="card-body">
 
+        <!-- Sorting -->
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label for="sorting" class="col-form-label">Сортировать по:</label>
+            </div>
+            <div class="col" id="sorting">
+                <select class="form-control" [(ngModel)]="sortingValue" (change)=getHumans()>
+                    <option *ngFor="let sortValue of humanSortingValues" [ngValue]="sortValue">{{sortValue}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-control" [(ngModel)]="filteringCareer" (change)=getHumans()>
+                    <option *ngFor="let career of humansCareers" [ngValue]="career">{{career}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-control" [(ngModel)]="filteringGenre" (change)=getHumans()>
+                    <option *ngFor="let genre of humansGenres" [ngValue]="genre">{{genre}}</option>
+                </select>
+            </div>
+        </div>
+
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -12,13 +34,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let human of humans">
-                    <td>{{human.id}}</td>
-                    <td><a class="card-link" routerLink="/humans/{{human.id}}">{{human.firstName}} {{human.lastName}}</a></td>
+                <tr *ngFor="let human of humans; index as i">
+                    <td>{{i + 1}}</td>
+                    <td><a class="card-link" routerLink="/humans/{{human.id}}">{{human.firstName}}
+                            {{human.lastName}}</a></td>
                     <td><span>{{human.birthDate | date:'dd MMM, yyyy':'UTC':'ru'}}</span></td>
                     <td>
-                        <span *ngFor="let career of human.careersInfo">
-                            <a class="card-link" routerLink="/careers/{{career.id}}">{{career.name}} </a></span>
+                        <span *ngFor="let career of human.humanCareers">
+                            <a class="card-link" [routerLink]="['/humans']"
+                                [queryParams]="{career:career, genre:filteringGenre}">{{career}} </a>
+                        </span>
                     </td>
                     <td>{{human.totalFilms}}</td>
                 </tr>
