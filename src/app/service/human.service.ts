@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Human, HumanSortType } from '../domain/human';
+import { FilmSortType } from '../domain/film';
 
 
 @Injectable({
@@ -14,23 +15,31 @@ export class HumanService {
 
   constructor(private http: HttpClient) { }
 
-  public findAll(): Observable<Human[]> {
-    return this.http.get<Human[]>(this.humanUrl);
+  public findAll(sort: HumanSortType, filteringCareer: string, filteringGenre: string): Observable<Human[]> {
+    const params = new HttpParams()
+      .set('sort', sort)
+      .set('career', filteringCareer)
+      .set('genre', filteringGenre);
+    return this.http.get<Human[]>(this.humanUrl, { params });
   }
 
   public findOne(id: number): Observable<Human> {
     return this.http.get<Human>(this.humanUrl + "/" + id);
   }
 
-  public findHumanRoles(id: number, sortingValue: string, filteringGenre?: string): Observable<any> {
-    let sort: HumanSortType = HumanSortType[sortingValue]; 
+  public findHumanFilms(id: number, sortType: FilmSortType, filteringCountry: string, filteringGenre: string): Observable<any> {
     const params = new HttpParams()
-      .set('sort', sort)
+      .set('sort', sortType)
+      .set('country', filteringCountry)
       .set('genre', filteringGenre);
-    return this.http.get<any>(this.humanUrl + "/" + id + "/roles", { params });
+    return this.http.get<any>(this.humanUrl + "/" + id + "/films", { params });
   }
 
-  public findHumanGenres(id: number): Observable<string[]> {
-    return this.http.get<string[]>(this.humanUrl + "/" + id + "/genres");
+  public findHumanFilmsCountries(id: number): Observable<string[]> {
+    return this.http.get<string[]>(this.humanUrl + "/" + id + "/films-countries");
+  }
+
+  public findHumanFilmsGenres(id: number): Observable<string[]> {
+    return this.http.get<string[]>(this.humanUrl + "/" + id + "/films-genres");
   }
 }
