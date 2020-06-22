@@ -8,14 +8,12 @@ import { HumanPageComponent } from './human-page/human-page.component';
 
 
 const routes: Routes = [
+  { path: '', component: FilmListComponent },
   { path: 'films', component: FilmListComponent },
   { path: 'films/:id', component: FilmPageComponent },
 
   { path: 'humans', component: HumanListComponent },
   { path: 'humans/:id', component: HumanPageComponent }
-
-  // { path: 'genres', component: GenreListComponent },
-  // { path: 'careers', component: CareerListComponent }
 ];
 
 @NgModule({
