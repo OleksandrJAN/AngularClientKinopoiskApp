@@ -11,6 +11,7 @@ import { FilmService } from './service/film.service';
 import { HumanService } from './service/human.service';
 import { GenreService } from './service/genre.service';
 import { CareerService } from './service/career.service';
+import { CountryService } from './service/country.service';
 
 import { AppComponent } from './app.component';
 import { FilmListComponent } from './film-list/film-list.component';
@@ -38,7 +39,8 @@ registerLocaleData(localeRu, 'ru');
     FilmService,
     HumanService,
     GenreService,
-    CareerService
+    CareerService,
+    CountryService
   ],
   bootstrap: [AppComponent]
 })
