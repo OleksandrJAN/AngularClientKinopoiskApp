@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HumanService } from '../service/human.service';
 import { Human } from '../domain/human';
 import { FilmSortType } from '../domain/film';
+import { GenreService } from '../service/genre.service';
+import { CountryService } from '../service/country.service';
 
 
 @Component({
@@ -28,6 +30,8 @@ export class HumanPageComponent implements OnInit {
 
   constructor(
     private humanService: HumanService,
+    private genreService: GenreService,
+    private countryService: CountryService,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -55,8 +59,8 @@ export class HumanPageComponent implements OnInit {
 
   getHumanFilmsInfo(): void {
     this.getHumanFilms();
-    this.getHumanFilmsCountries();
-    this.getHumanFilmsGenres();
+    this.getFilmsCountries();
+    this.getFilmsGenres();
   }
 
   getHumanFilms(): void {
@@ -69,17 +73,16 @@ export class HumanPageComponent implements OnInit {
     );
   }
 
-  getHumanFilmsCountries(): void {
-    this.humanService.findHumanFilmsCountries(this.humanId).subscribe(
+  getFilmsCountries(): void {
+    this.countryService.findAll().subscribe(
       (filmsCountries: string[]) => this.humanFilmsCountries = this.humanFilmsCountries.concat(filmsCountries)
     );
   }
 
-  getHumanFilmsGenres(): void {
-    this.humanService.findHumanFilmsGenres(this.humanId).subscribe(
-      (humanGenres: string[]) => this.humanFilmsGenres = this.humanFilmsGenres.concat(humanGenres),
-      (error: any) => console.log(error)
-    )
+  getFilmsGenres(): void {
+    this.genreService.findAll().subscribe(
+      (genresNames: string[]) => this.humanFilmsGenres = this.humanFilmsGenres.concat(genresNames)
+    );
   }
 
 }
