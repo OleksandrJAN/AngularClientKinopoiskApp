@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { FilmService } from '../service/film.service';
 import { Film, FilmSortType } from '../domain/film';
 import { GenreService } from '../service/genre.service';
+import { CountryService } from '../service/country.service';
 
 @Component({
   selector: 'app-film-list',
@@ -26,6 +27,7 @@ export class FilmListComponent implements OnInit {
   constructor(
     private filmService: FilmService,
     private genreService: GenreService,
+    private countryService: CountryService,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -59,7 +61,7 @@ export class FilmListComponent implements OnInit {
   }
 
   getFilmsCountries(): void {
-    this.filmService.findFilmsCountries().subscribe(
+    this.countryService.findAll().subscribe(
       (filmsCountries: string[]) => this.filmsCountries = this.filmsCountries.concat(filmsCountries)
     );
   }
