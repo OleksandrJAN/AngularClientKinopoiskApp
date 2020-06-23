@@ -29,7 +29,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Название</th>
-                    <th scope="col">Страна</th>
+                    <th scope="col">Страны</th>
                     <th scope="col">Год</th>
                     <th scope="col">Жанры</th>
                 </tr>
@@ -39,14 +39,20 @@
                     <td>{{i + 1}}</td>
                     <td><a class="card-link" routerLink="/films/{{film.id}}">{{film.filmName}}</a></td>
                     <td>
-                        <a class="card-link" [routerLink]="['/films']"
-                            [queryParams]="{country:film.country, genre:filteringGenre}">{{film.country}} </a>
+                        <span *ngFor="let country of film.filmCountries">
+                            <a class="card-link" [routerLink]="['/films']"
+                            [queryParams]="{country:country, genre:filteringGenre}">{{country}}
+                        </a>
+                        &nbsp;
+                        </span>
                     </td>
                     <td>{{film.year}}</td>
                     <td>
                         <span *ngFor="let genre of film.filmGenres">
                             <a class="card-link" [routerLink]="['/films']"
-                                [queryParams]="{country:filteringCountry, genre:genre}">{{genre}} </a>
+                                [queryParams]="{country:filteringCountry, genre:genre}">{{genre}}
+                            </a>
+                            &nbsp;
                         </span>
                     </td>
                 </tr>

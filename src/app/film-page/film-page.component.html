@@ -33,11 +33,14 @@
 
                 <div class="form-group row">
                     <div class="col-md-2">
-                        <label for="filmCountry" class="col-form-label">Страна:</label>
+                        <label for="filmCountries" class="col-form-label">Страны:</label>
                     </div>
                     <div class="col">
-                        <div id="filmCountry" class="form-control" readonly>
-                            <span>{{film.country}}</span>
+                        <div id="filmCountries" class="form-control" readonly>
+                            <span *ngFor="let country of film.filmCountries">
+                                <a class="card-link" [routerLink]="['/films']"
+                                    [queryParams]="{country:country}">{{country}}</a>&nbsp;
+                            </span>
                         </div>
                     </div>
                 </div>
