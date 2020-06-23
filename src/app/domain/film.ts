@@ -8,6 +8,7 @@ export class Film {
     image: string;
    
     filmGenres: Array<string> = new Array();
+    filmCountries: Array<string> = new Array();
 }
 
 export enum FilmSortType {
