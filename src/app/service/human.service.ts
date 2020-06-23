@@ -35,11 +35,4 @@ export class HumanService {
     return this.http.get<any>(this.humanUrl + "/" + id + "/films", { params });
   }
 
-  public findHumanFilmsCountries(id: number): Observable<string[]> {
-    return this.http.get<string[]>(this.humanUrl + "/" + id + "/films-countries");
-  }
-
-  public findHumanFilmsGenres(id: number): Observable<string[]> {
-    return this.http.get<string[]>(this.humanUrl + "/" + id + "/films-genres");
-  }
 }

@@ -22,10 +22,6 @@ export class FilmService {
     return this.http.get<Film[]>(this.filmUrl, { params });
   }
 
-  public findFilmsCountries(): Observable<string[]> {
-    return this.http.get<string[]>(this.filmUrl + "/countries");
-  }
-
   public findOne(id: number): Observable<Film> {
     return this.http.get<Film>(this.filmUrl + "/" + id);
   }
