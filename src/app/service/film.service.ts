@@ -14,12 +14,13 @@ export class FilmService {
 
   constructor(private http: HttpClient) { }
 
-  public findAll(sortType: FilmSortType, filteringCountry: string, filteringGenre: string): Observable<Film[]> {
+  public findAll(pageIndex: string, sortType: FilmSortType, filteringCountry: string, filteringGenre: string): Observable<any> {
     const params = new HttpParams()
+      .set('page', pageIndex)
       .set('sort', sortType)
       .set('country', filteringCountry)
       .set('genre', filteringGenre);
-    return this.http.get<Film[]>(this.filmUrl, { params });
+    return this.http.get<any>(this.filmUrl, { params });
   }
 
   public findOne(id: number): Observable<Film> {

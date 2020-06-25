@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { FilmService } from '../service/film.service';
 import { Film, FilmSortType } from '../domain/film';
@@ -24,10 +24,15 @@ export class FilmListComponent implements OnInit {
   filmsGenres: string[] = ['Все жанры'];
   filteringGenre: string = this.filmsGenres[0];
 
+  page: any;
+  currentPageIndex: number;
+  firstFilmIndexOnPage: number;
+
   constructor(
     private filmService: FilmService,
     private genreService: GenreService,
     private countryService: CountryService,
+    private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -41,6 +46,9 @@ export class FilmListComponent implements OnInit {
   }
 
   getQueryParams(params: Params): void {
+    // when filtering or sorting films we must start from first page
+    this.currentPageIndex = 0;
+
     const country = params['country'];
     if (country !== undefined) {
       this.filteringCountry = country;
@@ -49,14 +57,32 @@ export class FilmListComponent implements OnInit {
     if (genre !== undefined) {
       this.filteringGenre = genre;
     }
+    const sort = params['sort'];
+    if (sort !== undefined) {
+      this.sortingValue = sort;
+    }
+  }
+
+  refreshFilms(): void {
+    const queryParams = {
+      country: this.filteringCountry,
+      genre: this.filteringGenre,
+      sort: this.sortingValue
+    };
+    this.router.navigate(['/films'], { queryParams: queryParams });
   }
 
   getFilms(): void {
+    let pageIndex: string = this.currentPageIndex.toString();
     let sortType: FilmSortType = FilmSortType[this.sortingValue];
     let filteringCountry: string = this.filteringCountry !== this.filmsCountries[0] ? this.filteringCountry : '';
     let filteringGenre: string = this.filteringGenre !== this.filmsGenres[0] ? this.filteringGenre : '';
-    this.filmService.findAll(sortType, filteringCountry, filteringGenre).subscribe(
-      (films: Film[]) => this.films = films
+    this.filmService.findAll(pageIndex, sortType, filteringCountry, filteringGenre).subscribe(
+      (filmsPage: any) => {
+        this.page = filmsPage;
+        this.films = filmsPage.content;
+        this.firstFilmIndexOnPage = filmsPage.pageable.offset;
+      }
     );
   }
 
@@ -70,6 +96,11 @@ export class FilmListComponent implements OnInit {
     this.genreService.findAll().subscribe(
       (genresNames: string[]) => this.filmsGenres = this.filmsGenres.concat(genresNames)
     );
+  }
+
+  changeCurrentPage(newPageNumber: number): void {
+    this.currentPageIndex = newPageNumber;
+    this.getFilms();
   }
 
 }

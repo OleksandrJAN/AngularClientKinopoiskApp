@@ -7,18 +7,24 @@
                 <label for="sorting" class="col-form-label">Сортировать по:</label>
             </div>
             <div class="col" id="sorting">
-                <select class="form-control" [(ngModel)]="sortingValue" (change)=getFilms()>
-                    <option *ngFor="let sortValue of filmsSortingValues" [ngValue]="sortValue">{{sortValue}}</option>
+                <select class="form-control" [(ngModel)]="sortingValue" (change)=refreshFilms()>
+                    <option *ngFor="let sortValue of filmsSortingValues" [ngValue]="sortValue">
+                        {{sortValue}}
+                    </option>
                 </select>
             </div>
             <div class="col">
-                <select class="form-control" [(ngModel)]="filteringCountry" (change)=getFilms()>
-                    <option *ngFor="let country of filmsCountries" [ngValue]="country">{{country}}</option>
+                <select class="form-control" [(ngModel)]="filteringCountry" (change)=refreshFilms()>
+                    <option *ngFor="let country of filmsCountries" [ngValue]="country">
+                        {{country}}
+                    </option>
                 </select>
             </div>
             <div class="col">
-                <select class="form-control" [(ngModel)]="filteringGenre" (change)=getFilms()>
-                    <option *ngFor="let genre of filmsGenres" [ngValue]="genre">{{genre}}</option>
+                <select class="form-control" [(ngModel)]="filteringGenre" (change)=refreshFilms()>
+                    <option *ngFor="let genre of filmsGenres" [ngValue]="genre">
+                        {{genre}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -36,21 +42,26 @@
             </thead>
             <tbody>
                 <tr *ngFor="let film of films; index as i">
-                    <td>{{i + 1}}</td>
+                    <td>{{i + 1 + firstFilmIndexOnPage}}</td>
                     <td><a class="card-link" routerLink="/films/{{film.id}}">{{film.filmName}}</a></td>
                     <td>
                         <span *ngFor="let country of film.filmCountries">
-                            <a class="card-link" [routerLink]="['/films']"
-                            [queryParams]="{country:country, genre:filteringGenre}">{{country}}
-                        </a>
-                        &nbsp;
+                            <!-- add all queryParams, not just country one, for a correct browser history -->
+                            <a [routerLink]="['/films']"
+                                [queryParams]="{country:country, genre:filteringGenre, sort:sortingValue}"
+                                class="card-link">
+                                {{country}}
+                            </a>
+                            &nbsp;
                         </span>
                     </td>
                     <td>{{film.year}}</td>
                     <td>
                         <span *ngFor="let genre of film.filmGenres">
+                            <!-- add all queryParams, not just genre one, for a correct browser history -->
                             <a class="card-link" [routerLink]="['/films']"
-                                [queryParams]="{country:filteringCountry, genre:genre}">{{genre}}
+                                [queryParams]="{country:filteringCountry, genre:genre, sort:sortingValue}">
+                                {{genre}}
                             </a>
                             &nbsp;
                         </span>
@@ -58,6 +69,11 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- need to check it for undefined, because page doesn't load fast enough -->
+        <div *ngIf="page">
+            <app-pager [page]="page" (clickedPageNumber)="changeCurrentPage($event)"></app-pager>
+        </div>
 
     </div>
 </div>
