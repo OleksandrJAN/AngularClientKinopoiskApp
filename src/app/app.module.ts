@@ -18,6 +18,7 @@ import { FilmListComponent } from './film-list/film-list.component';
 import { FilmPageComponent } from './film-page/film-page.component';
 import { HumanListComponent } from './human-list/human-list.component';
 import { HumanPageComponent } from './human-page/human-page.component';
+import { PagerComponent } from './pager/pager.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -27,7 +28,8 @@ registerLocaleData(localeRu, 'ru');
     FilmListComponent,
     FilmPageComponent,
     HumanListComponent,
-    HumanPageComponent
+    HumanPageComponent,
+    PagerComponent
   ],
   imports: [
     BrowserModule,
