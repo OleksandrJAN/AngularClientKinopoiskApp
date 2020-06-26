@@ -7,18 +7,24 @@
                 <label for="sorting" class="col-form-label">Сортировать по:</label>
             </div>
             <div class="col" id="sorting">
-                <select class="form-control" [(ngModel)]="sortingValue" (change)=getHumans()>
-                    <option *ngFor="let sortValue of humanSortingValues" [ngValue]="sortValue">{{sortValue}}</option>
+                <select class="form-control" [(ngModel)]="sortingValue" (change)=refreshHumans()>
+                    <option *ngFor="let sortValue of humanSortingValues" [ngValue]="sortValue">
+                        {{sortValue}}
+                    </option>
                 </select>
             </div>
             <div class="col">
-                <select class="form-control" [(ngModel)]="filteringCareer" (change)=getHumans()>
-                    <option *ngFor="let career of humansCareers" [ngValue]="career">{{career}}</option>
+                <select class="form-control" [(ngModel)]="filteringCareer" (change)=refreshHumans()>
+                    <option *ngFor="let career of humansCareers" [ngValue]="career">
+                        {{career}}
+                    </option>
                 </select>
             </div>
             <div class="col">
-                <select class="form-control" [(ngModel)]="filteringGenre" (change)=getHumans()>
-                    <option *ngFor="let genre of humansGenres" [ngValue]="genre">{{genre}}</option>
+                <select class="form-control" [(ngModel)]="filteringGenre" (change)=refreshHumans()>
+                    <option *ngFor="let genre of humansGenres" [ngValue]="genre">
+                        {{genre}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -41,14 +47,20 @@
                     <td><span>{{human.birthDate | date:'dd MMM, yyyy':'UTC':'ru'}}</span></td>
                     <td>
                         <span *ngFor="let career of human.humanCareers">
+                            <!-- add all queryParams, not just country one, for a correct browser history -->
                             <a class="card-link" [routerLink]="['/humans']"
-                                [queryParams]="{career:career, genre:filteringGenre}">{{career}} </a>
+                                [queryParams]="{career:career, genre:filteringGenre, sort:sortingValue}">{{career}} </a>
                         </span>
                     </td>
                     <td>{{human.totalFilms}}</td>
                 </tr>
             </tbody>
         </table>
+
+        <!-- need to check it for undefined, because page doesn't load fast enough -->
+        <div *ngIf="page">
+            <app-pager [page]="page" (clickedPageNumber)="changeCurrentPage($event)"></app-pager>
+        </div>
 
     </div>
 </div>

@@ -15,8 +15,9 @@ export class HumanService {
 
   constructor(private http: HttpClient) { }
 
-  public findAll(sort: HumanSortType, filteringCareer: string, filteringGenre: string): Observable<Human[]> {
+  public findAll(pageIndex: string, sort: HumanSortType, filteringCareer: string, filteringGenre: string): Observable<Human[]> {
     const params = new HttpParams()
+      .set('page', pageIndex)
       .set('sort', sort)
       .set('career', filteringCareer)
       .set('genre', filteringGenre);
