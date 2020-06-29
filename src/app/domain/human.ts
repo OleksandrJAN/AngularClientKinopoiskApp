@@ -11,5 +11,6 @@ export class Human {
 
 export const HumanSortTypeMap = new Map<string, string>([
     ['популярности', 'byPopular'],
-    ['имени', 'byName']
+    ['имени', 'byName'],
+    ['возрасту', 'byAge']
 ]);
