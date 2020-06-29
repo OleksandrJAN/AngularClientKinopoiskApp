@@ -9,7 +9,7 @@ export class Human {
     humanCareers: Array<string> = new Array();
 }
 
-export enum HumanSortType {
-    популярности = 'byPopular',
-    имени = 'byName'
-}
+export const HumanSortTypeMap = new Map<string, string>([
+    ['популярности', 'byPopular'],
+    ['имени', 'byName']
+]);

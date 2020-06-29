@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Human, HumanSortType } from '../domain/human';
-import { FilmSortType } from '../domain/film';
+import { Human } from '../domain/human';
 
 
 @Injectable({
@@ -15,10 +14,10 @@ export class HumanService {
 
   constructor(private http: HttpClient) { }
 
-  public findAll(pageIndex: string, sort: HumanSortType, filteringCareer: string, filteringGenre: string): Observable<Human[]> {
+  public findAll(pageIndex: string, sortType: string, filteringCareer: string, filteringGenre: string): Observable<Human[]> {
     const params = new HttpParams()
       .set('page', pageIndex)
-      .set('sort', sort)
+      .set('sort', sortType)
       .set('career', filteringCareer)
       .set('genre', filteringGenre);
     return this.http.get<Human[]>(this.humanUrl, { params });
@@ -28,7 +27,7 @@ export class HumanService {
     return this.http.get<Human>(this.humanUrl + "/" + id);
   }
 
-  public findHumanFilms(id: number, sortType: FilmSortType, filteringCountry: string, filteringGenre: string): Observable<any> {
+  public findHumanFilms(id: number, sortType: string, filteringCountry: string, filteringGenre: string): Observable<any> {
     const params = new HttpParams()
       .set('sort', sortType)
       .set('country', filteringCountry)

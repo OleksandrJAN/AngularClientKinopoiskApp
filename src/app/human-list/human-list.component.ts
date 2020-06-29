@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { HumanService } from '../service/human.service';
-import { Human, HumanSortType } from '../domain/human';
+import { Human, HumanSortTypeMap } from '../domain/human';
 import { GenreService } from '../service/genre.service';
 import { CareerService } from '../service/career.service';
 
@@ -15,7 +15,7 @@ export class HumanListComponent implements OnInit {
 
   humans: Human[];
 
-  humanSortingValues = Object.keys(HumanSortType);
+  humanSortingValues = Array.from(HumanSortTypeMap.keys());
   sortingValue: string = this.humanSortingValues[0];
 
   humansCareers: string[] = ['Все карьеры'];
@@ -74,7 +74,7 @@ export class HumanListComponent implements OnInit {
 
   getHumans(): void {
     let pageIndex: string = this.currentPageIndex.toString();
-    let sortType: HumanSortType = HumanSortType[this.sortingValue];
+    let sortType: string = HumanSortTypeMap.get(this.sortingValue);
     let filteringCareer: string = this.filteringCareer !== this.humansCareers[0] ? this.filteringCareer : '';
     let filteringGenre: string = this.filteringGenre !== this.humansGenres[0] ? this.filteringGenre : '';
     this.humanService.findAll(pageIndex, sortType, filteringCareer, filteringGenre).subscribe(

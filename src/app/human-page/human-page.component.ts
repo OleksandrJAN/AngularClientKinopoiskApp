@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HumanService } from '../service/human.service';
 import { Human } from '../domain/human';
-import { FilmSortType } from '../domain/film';
+import { FilmSortTypeMap } from '../domain/film';
 import { GenreService } from '../service/genre.service';
 import { CountryService } from '../service/country.service';
 
@@ -19,7 +19,7 @@ export class HumanPageComponent implements OnInit {
   human: Human = new Human();
   humanRoles: any;
 
-  filmsSortingValues: string[] = Object.keys(FilmSortType);
+  filmsSortingValues: string[] = Array.from(FilmSortTypeMap.keys());
   sortingValue: string = this.filmsSortingValues[0];
 
   humanFilmsCountries: string[] = ['Все страны'];
@@ -64,7 +64,7 @@ export class HumanPageComponent implements OnInit {
   }
 
   getHumanFilms(): void {
-    let sortType: FilmSortType = FilmSortType[this.sortingValue];
+    let sortType: string = FilmSortTypeMap.get(this.sortingValue);
     let filteringCountry: string = this.filteringCountry !== this.humanFilmsCountries[0] ? this.filteringCountry : '';
     let filteringGenre: string = this.filteringGenre !== this.humanFilmsGenres[0] ? this.filteringGenre : '';
     this.humanService.findHumanFilms(this.humanId, sortType, filteringCountry, filteringGenre).subscribe(

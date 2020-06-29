@@ -6,12 +6,12 @@ export class Film {
     year: number;
     annotation: string;
     image: string;
-   
+
     filmGenres: Array<string> = new Array();
     filmCountries: Array<string> = new Array();
 }
 
-export enum FilmSortType {
-    году = 'byYear',
-    названию = 'byName'
-}
+export const FilmSortTypeMap = new Map<string, string>([
+    ['году', 'byYear'],
+    ['названию', 'byName']
+]);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Film, FilmSortType } from '../domain/film';
+import { Film } from '../domain/film';
 
 
 @Injectable({
@@ -14,7 +14,7 @@ export class FilmService {
 
   constructor(private http: HttpClient) { }
 
-  public findAll(pageIndex: string, sortType: FilmSortType, filteringCountry: string, filteringGenre: string): Observable<any> {
+  public findAll(pageIndex: string, sortType: string, filteringCountry: string, filteringGenre: string): Observable<any> {
     const params = new HttpParams()
       .set('page', pageIndex)
       .set('sort', sortType)

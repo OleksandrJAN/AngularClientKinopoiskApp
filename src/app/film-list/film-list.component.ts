@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { FilmService } from '../service/film.service';
-import { Film, FilmSortType } from '../domain/film';
+import { Film, FilmSortTypeMap } from '../domain/film';
 import { GenreService } from '../service/genre.service';
 import { CountryService } from '../service/country.service';
 
@@ -15,7 +15,7 @@ export class FilmListComponent implements OnInit {
 
   films: Film[];
 
-  filmsSortingValues = Object.keys(FilmSortType);
+  filmsSortingValues: string[] = Array.from(FilmSortTypeMap.keys());
   sortingValue: string = this.filmsSortingValues[0];
 
   filmsCountries: string[] = ['Все страны'];
@@ -74,7 +74,7 @@ export class FilmListComponent implements OnInit {
 
   getFilms(): void {
     let pageIndex: string = this.currentPageIndex.toString();
-    let sortType: FilmSortType = FilmSortType[this.sortingValue];
+    let sortType: string = FilmSortTypeMap.get(this.sortingValue);
     let filteringCountry: string = this.filteringCountry !== this.filmsCountries[0] ? this.filteringCountry : '';
     let filteringGenre: string = this.filteringGenre !== this.filmsGenres[0] ? this.filteringGenre : '';
     this.filmService.findAll(pageIndex, sortType, filteringCountry, filteringGenre).subscribe(
