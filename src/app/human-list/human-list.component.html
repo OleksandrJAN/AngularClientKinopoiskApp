@@ -41,7 +41,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let human of humans; index as i">
-                    <td>{{i + 1}}</td>
+                    <td>{{i + 1 + firstHumanIndexOnPage}}</td>
                     <td><a class="card-link" routerLink="/humans/{{human.id}}">{{human.firstName}}
                             {{human.lastName}}</a></td>
                     <td><span>{{human.birthDate | date:'dd MMM, yyyy':'UTC':'ru'}}</span></td>
